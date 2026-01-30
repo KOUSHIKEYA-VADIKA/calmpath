@@ -13,7 +13,7 @@ const MoodLogSchema = new mongoose.Schema({
   focusLevel: Number,
   activityMinutes: Number,
   stressLevel: Number
-}, { timestamps: true });
 
-module.exports = mongoose.models.MoodLog 
-  || mongoose.model('MoodLog', MoodLogSchema);
+}, { timestamps: true });   // ✅ this gives createdAt automatically
+
+module.exports = mongoose.model('MoodLog', MoodLogSchema);
