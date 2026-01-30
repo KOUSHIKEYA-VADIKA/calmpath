@@ -156,3 +156,46 @@ function stopBreathingExercise() {
   breathingCircle.classList.remove('inhale', 'exhale');
   startBreathingBtn.textContent = 'Start Breathing';
 }
+/* ========================= */
+/* Logout */
+/* ========================= */
+
+const logoutBtn = document.getElementById('logoutBtn');
+
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    if (!confirm('Log out of CalmPath?')) return;
+    localStorage.removeItem('calmpathUser');
+    window.location.href = 'login.html';
+  });
+}
+
+/* ========================= */
+/* Delete All My Data */
+/* ========================= */
+
+const deleteAllBtn = document.getElementById('deleteAllDataBtn');
+const deleteStatus = document.getElementById('deleteStatus');
+
+if (deleteAllBtn) {
+  deleteAllBtn.addEventListener('click', async () => {
+    const first = confirm('This will permanently delete ALL your data. Continue?');
+    if (!first) return;
+
+    const second = confirm('This cannot be undone. Are you absolutely sure?');
+    if (!second) return;
+
+    deleteStatus.textContent = 'Deleting all data...';
+
+    const res = await fetch('http://localhost:5000/api/export/all', {
+      method: 'DELETE'
+    });
+
+    if (res.ok) {
+      deleteStatus.textContent = 'All data deleted successfully.';
+      location.reload();
+    } else {
+      deleteStatus.textContent = 'Failed to delete data.';
+    }
+  });
+}

@@ -518,3 +518,21 @@ textarea:disabled {
 .auth-card h1 {
   margin-bottom: 10px;
 }
+.btn-danger {
+  background: linear-gradient(135deg, #ff6b6b, #d64545);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+.btn-ghost.small {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}

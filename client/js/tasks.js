@@ -2,6 +2,10 @@ const taskListDiv = document.getElementById('taskList');
 const streakBox = document.getElementById('streakBox');
 const badgeBox = document.getElementById('badgeBox');
 
+if ('Notification' in window && Notification.permission !== 'granted') {
+  Notification.requestPermission();
+}
+
 document.getElementById('addTaskBtn').addEventListener('click', addTask);
 
 async function addTask() {
@@ -9,17 +13,13 @@ async function addTask() {
   const dueDate = document.getElementById('taskDate').value;
   const dueTime = document.getElementById('taskTime').value;
 
-  console.log('Adding task:', { title, dueDate, dueTime }); // DEBUG
-
   if (!title) return alert('Enter task title');
 
-  const res = await fetch('http://localhost:5000/api/tasks', {
+  await fetch('http://localhost:5000/api/tasks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title, dueDate, dueTime })
   });
-
-  console.log('Task POST status:', res.status); // DEBUG
 
   document.getElementById('taskTitle').value = '';
   document.getElementById('taskDate').value = '';
@@ -36,14 +36,15 @@ async function loadTasks() {
     <div class="suggestion">
       <strong>${t.title}</strong><br>
       <small>${t.dueDate || ''} ${t.dueTime || ''}</small><br>
-      ${t.completed 
-  ? '✅ Completed' 
-  : `<button onclick="completeTask('${t._id}')">Mark Done</button>`
-}
-<button onclick="deleteTask('${t._id}')" style="margin-left:6px">
-  🗑️ Delete
-</button>
 
+      ${t.completed 
+        ? '✅ Completed' 
+        : `<button onclick="completeTask('${t._id}')">Mark Done</button>`
+      }
+
+      <button onclick="deleteTask('${t._id}')" style="margin-left:6px">
+        🗑️ Delete
+      </button>
     </div>
   `).join('');
 
@@ -54,6 +55,16 @@ async function completeTask(id) {
   await fetch(`http://localhost:5000/api/tasks/${id}/complete`, {
     method: 'PUT'
   });
+  loadTasks();
+}
+
+async function deleteTask(id) {
+  if (!confirm('Delete this task?')) return;
+
+  await fetch(`http://localhost:5000/api/tasks/${id}`, {
+    method: 'DELETE'
+  });
+
   loadTasks();
 }
 
@@ -93,15 +104,31 @@ function calculateStreakAndBadges(tasks) {
     : 'No badges yet — your journey begins 🌱';
 }
 
-// Initial load
-loadTasks();
-async function deleteTask(id) {
-  if (!confirm('Delete this task?')) return;
+/* ========================= */
+/* Task Reminder Checker */
+/* ========================= */
 
-  await fetch(`http://localhost:5000/api/tasks/${id}`, {
-    method: 'DELETE'
+setInterval(checkTaskReminders, 60000); // every minute
+
+async function checkTaskReminders() {
+  const res = await fetch('http://localhost:5000/api/tasks');
+  const tasks = await res.json();
+
+  const now = new Date();
+
+  tasks.forEach(t => {
+    if (t.completed || !t.dueDate || !t.dueTime) return;
+
+    const due = new Date(`${t.dueDate}T${t.dueTime}`);
+    const diffMin = (due - now) / (1000 * 60);
+
+    if (diffMin > 0 && diffMin < 1 && Notification.permission === 'granted') {
+      new Notification('🌿 CalmPath Reminder', {
+        body: `Time for: ${t.title}`
+      });
+    }
   });
-
-  loadTasks();
 }
 
+// Initial load
+loadTasks();

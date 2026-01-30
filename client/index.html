@@ -12,11 +12,14 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
+  <!-- Auth Guard -->
   <script>
-  if (!localStorage.getItem('calmpathUser')) {
-    window.location.href = 'login.html';
-  }
-</script>
+    if (!localStorage.getItem('calmpathUser')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+
   <header class="site-header">
     <div class="site-header-inner">
       <div class="brand">
@@ -28,6 +31,10 @@
       </div>
       <div class="meta">
         <small class="meta-note">Private • No diagnosis • For self-regulation</small>
+        <!-- ✅ LOGOUT BUTTON -->
+        <button id="logoutBtn" class="btn-ghost small" style="margin-left:10px">
+          Logout
+        </button>
       </div>
     </div>
   </header>
@@ -130,9 +137,7 @@
       <!-- Right column -->
       <aside class="col col-right">
 
-        <!-- ========================= -->
-        <!-- TASK SCHEDULER (NEW) -->
-        <!-- ========================= -->
+        <!-- TASK SCHEDULER -->
         <section class="panel panel-soft" aria-labelledby="tasks-heading">
           <div class="panel-inner">
             <h2 id="tasks-heading" class="panel-title">My Gentle Tasks</h2>
@@ -146,32 +151,38 @@
             </div>
 
             <div id="taskList" style="margin-top:12px"></div>
-
             <div id="streakBox" class="small-italic" style="margin-top:10px"></div>
             <div id="badgeBox" class="small-muted" style="margin-top:6px"></div>
           </div>
         </section>
-        <!-- ========================= -->
-<!-- DATA & PRIVACY (EXPORT) -->
-<!-- ========================= -->
-<section class="panel panel-soft" aria-labelledby="privacy-heading">
-  <div class="panel-inner">
-    <h2 id="privacy-heading" class="panel-title">Data & Privacy</h2>
 
-    <p class="small-muted">
-      Your data belongs to you. You can export your logs and tasks anytime.
-    </p>
+        <!-- DATA & PRIVACY (EXPORT) -->
+        <section class="panel panel-soft" aria-labelledby="privacy-heading">
+          <div class="panel-inner">
+            <h2 id="privacy-heading" class="panel-title">Data & Privacy</h2>
 
-    <div class="actions">
-      <button id="exportDataBtn" class="btn-primary">
-        Export My Data
-      </button>
-    </div>
+            <p class="small-muted">
+              Your data belongs to you. You can export or delete everything anytime.
+            </p>
 
-    <div id="exportStatus" class="small-italic" style="margin-top:8px"></div>
-  </div>
-</section>
+            <div class="actions">
+              <button id="exportDataBtn" class="btn-primary">
+                Export My Data
+              </button>
+            </div>
 
+            <div id="exportStatus" class="small-italic" style="margin-top:8px"></div>
+
+            <!-- ✅ DELETE ALL DATA -->
+            <div class="actions" style="margin-top:12px">
+              <button id="deleteAllDataBtn" class="btn-danger">
+                Delete All My Data
+              </button>
+            </div>
+
+            <div id="deleteStatus" class="small-italic" style="margin-top:6px"></div>
+          </div>
+        </section>
 
         <!-- Trends -->
         <section class="panel" aria-labelledby="trends-heading">
@@ -241,7 +252,7 @@
 
   </main>
 
-  <!-- Scripts (preserve order and logic) -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/search.js"></script>
   <script src="js/interventions.js"></script>

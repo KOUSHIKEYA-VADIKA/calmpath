@@ -15,29 +15,20 @@ router.post('/', async (req, res) => {
 
 /* Get all tasks */
 router.get('/', async (req, res) => {
-  try {
-    const tasks = await Task.find().sort({ createdAt: -1 });
-    res.json(tasks);
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch tasks' });
-  }
+  const tasks = await Task.find().sort({ createdAt: -1 });
+  res.json(tasks);
 });
 
 /* Mark task completed */
 router.put('/:id/complete', async (req, res) => {
-  try {
-    const task = await Task.findByIdAndUpdate(
-      req.params.id,
-      { completed: true, completedAt: new Date() },
-      { new: true }
-    );
-    res.json(task);
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to complete task' });
-  }
+  const task = await Task.findByIdAndUpdate(
+    req.params.id,
+    { completed: true, completedAt: new Date() },
+    { new: true }
+  );
+  res.json(task);
 });
 
-module.exports = router;
 /* Delete task */
 router.delete('/:id', async (req, res) => {
   try {
@@ -47,3 +38,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to delete task' });
   }
 });
+
+module.exports = router;
