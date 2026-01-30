@@ -15,5 +15,4 @@ const MoodLogSchema = new mongoose.Schema({
   stressLevel: Number
 
 }, { timestamps: true });   // ✅ this gives createdAt automatically
-
 module.exports = mongoose.model('MoodLog', MoodLogSchema);
