@@ -37,9 +37,13 @@ async function loadTasks() {
       <strong>${t.title}</strong><br>
       <small>${t.dueDate || ''} ${t.dueTime || ''}</small><br>
       ${t.completed 
-        ? '✅ Completed' 
-        : `<button onclick="completeTask('${t._id}')">Mark Done</button>`
-      }
+  ? '✅ Completed' 
+  : `<button onclick="completeTask('${t._id}')">Mark Done</button>`
+}
+<button onclick="deleteTask('${t._id}')" style="margin-left:6px">
+  🗑️ Delete
+</button>
+
     </div>
   `).join('');
 
@@ -91,3 +95,13 @@ function calculateStreakAndBadges(tasks) {
 
 // Initial load
 loadTasks();
+async function deleteTask(id) {
+  if (!confirm('Delete this task?')) return;
+
+  await fetch(`http://localhost:5000/api/tasks/${id}`, {
+    method: 'DELETE'
+  });
+
+  loadTasks();
+}
+
