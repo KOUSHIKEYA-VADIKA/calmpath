@@ -7,9 +7,29 @@
 <body>
   <h1>CalmPath</h1>
   <p>Emotional awareness & self-regulation tool</p>
+  <!-- ========================= -->
+<!-- Daily Context Check-In -->
+<!-- ========================= -->
+<section class="day-context-box">
+  <h2>How was your day?</h2>
 
+  <select id="dayTypeSelect">
+    <option value="">-- Select your day type --</option>
+    <option value="low-energy">Low-energy day</option>
+    <option value="recovery">Recovery day</option>
+    <option value="high-focus">High-focus day</option>
+  </select>
+
+  <div id="dayContextFollowup"></div>
+  <div id="dayContextResult"></div>
+</section>
+
+
+  <!-- ========================= -->
+  <!-- Daily Check-In -->
+  <!-- ========================= -->
   <section class="mood-box">
-    <h2>Log How You Feel</h2>
+    <h2>Daily Check-In</h2>
 
     <label>Mood</label>
     <select id="mood">
@@ -29,25 +49,113 @@
     <label>Note (optional)</label>
     <textarea id="note"></textarea>
 
-    <button id="submitMood">Log Mood</button>
+    <!-- Routine Inputs (NEW) -->
+    <h3>Daily Routine</h3>
+
+    <label>Sleep Hours</label>
+    <input type="number" id="sleepHours" step="0.5" placeholder="e.g. 7.5">
+
+    <label>Sleep Quality (1-5)</label>
+    <input type="number" id="sleepQuality" min="1" max="5" placeholder="1 = Poor, 5 = Excellent">
+
+    <label>Screen Time (hours)</label>
+    <input type="number" id="screenTime" step="0.5" placeholder="e.g. 5">
+
+    <label>Energy Level (1-5)</label>
+    <input type="number" id="energyLevel" min="1" max="5">
+
+    <label>Focus Level (1-5)</label>
+    <input type="number" id="focusLevel" min="1" max="5">
+
+    <label>Physical Activity (minutes)</label>
+    <input type="number" id="activityMinutes" placeholder="e.g. 30">
+
+    <label>Perceived Stress (1-5)</label>
+    <input type="number" id="stressLevel" min="1" max="5">
+
+    <button id="submitMood">Log Daily Check-In</button>
   </section>
 
+  <!-- ========================= -->
+  <!-- Suggested Self-Regulation -->
+  <!-- ========================= -->
   <section class="suggestions-box">
     <h2>Suggested Self-Regulation</h2>
     <div id="suggestions"></div>
   </section>
+
+  <!-- ========================= -->
+  <!-- Resource Library -->
+  <!-- ========================= -->
+  <section class="resource-box">
+    <h2>Resource Library</h2>
+    <p>Browse trusted self-regulation resources.</p>
+
+    <input
+      type="text"
+      id="resourceSearch"
+      placeholder="Search stress, sleep, anxiety..."
+      oninput="searchResourcesUI()"
+    />
+
+    <div id="resourceResults"></div>
+  </section>
+
+  <!-- ========================= -->
+  <!-- Guided Pathways -->
+  <!-- ========================= -->
+  <section class="pathway-box">
+    <h2>Guided Pathways</h2>
+    <p>Select a structured self-regulation routine.</p>
+
+    <select id="pathwaySelect">
+      <option value="">-- Select a pathway --</option>
+    </select>
+
+    <button id="startPathwayBtn">Start Pathway</button>
+
+    <div id="pathwayPlayer"></div>
+  </section>
+
+  <!-- ========================= -->
+  <!-- Dashboard -->
+  <!-- ========================= -->
+  <section class="dashboard-box">
+    <h2>Emotional & Routine Dashboard</h2>
+    <p>Based on your daily check-ins.</p>
+
+    <label for="dashboardRange">View Range:</label>
+    <select id="dashboardRange">
+      <option value="7">Last 7 Days</option>
+      <option value="30">Last 30 Days</option>
+    </select>
+
+    <canvas id="intensityLineChart"></canvas>
+    <canvas id="routineBarChart"></canvas>
+  </section>
+
+  <!-- ========================= -->
+  <!-- Breathing Tool -->
+  <!-- ========================= -->
   <section class="breathing-box">
-  <h2>Breathing Exercise</h2>
-  <p id="breathingPhase">Ready to begin</p>
+    <h2>Breathing Exercise</h2>
+    <p id="breathingPhase">Ready to begin</p>
 
-  <div class="breathing-circle" id="breathingCircle">
-    <span id="breathingCount">0</span>
-  </div>
+    <div class="breathing-circle" id="breathingCircle">
+      <span id="breathingCount">0</span>
+    </div>
 
-  <button id="startBreathing">Start Breathing</button>
-</section>
+    <button id="startBreathing">Start Breathing</button>
+  </section>
 
-
+  <!-- ========================= -->
+  <!-- Scripts (SAFE ORDER) -->
+  <!-- ========================= -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/interventions.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/dayContext.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

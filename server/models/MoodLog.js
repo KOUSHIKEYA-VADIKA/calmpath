@@ -7,18 +7,20 @@ const MoodLogSchema = new mongoose.Schema({
   },
   intensity: {
     type: Number,
-    required: true,
-    min: 1,
-    max: 10
+    required: true
   },
-  triggers: {
-    type: [String],
-    default: []
-  },
-  note: {
-    type: String,
-    default: ''
-  },
+  triggers: [String],
+  note: String,
+
+  // Routine & lifestyle fields (NEW)
+  sleepHours: Number,
+  sleepQuality: Number,   // 1–5
+  screenTime: Number,     // hours
+  energyLevel: Number,    // 1–5
+  focusLevel: Number,     // 1–5
+  activityMinutes: Number,
+  stressLevel: Number,    // 1–5
+
   createdAt: {
     type: Date,
     default: Date.now

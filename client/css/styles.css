@@ -1,210 +1,156 @@
-/* Reset & Base */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #eaf3ff, #f6fbff);
+  background: #f4f7fc;
   color: #2c3e50;
+  display: flex;
   min-height: 100vh;
 }
 
-/* App Container */
-body > h1 {
-  text-align: center;
-  margin-top: 20px;
-  color: #2d5be3;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+/* ========================= */
+/* Sidebar */
+/* ========================= */
+
+.sidebar {
+  width: 230px;
+  background: #1f2a44;
+  color: #fff;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-body > p {
-  text-align: center;
-  color: #5f6f8a;
-  margin-bottom: 30px;
+.sidebar h2 {
+  margin: 0 0 30px;
+  font-size: 1.4rem;
+  color: #ffffff;
 }
 
-/* Main Sections */
-.mood-box,
-.suggestions-box {
-  background: #ffffff;
-  max-width: 520px;
-  margin: 0 auto 25px auto;
-  padding: 25px;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.mood-box:hover,
-.suggestions-box:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
-}
-
-/* Section Titles */
-.mood-box h2,
-.suggestions-box h2 {
-  margin-top: 0;
+.sidebar nav a {
+  color: #cfd8f3;
+  text-decoration: none;
   margin-bottom: 15px;
-  color: #34495e;
-  font-size: 1.3rem;
+  font-size: 0.95rem;
+  display: block;
+}
+
+.sidebar nav a:hover {
+  color: #ffffff;
+}
+
+/* ========================= */
+/* Main Content */
+/* ========================= */
+
+.main-content {
+  flex: 1;
+  padding: 25px 30px;
+  overflow-y: auto;
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #2d5be3;
+}
+
+.main-header p {
+  margin-top: 5px;
+  color: #6c7c99;
+}
+
+/* ========================= */
+/* Dashboard Grid */
+/* ========================= */
+
+.dashboard-grid {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* ========================= */
+/* Cards */
+/* ========================= */
+
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
   border-bottom: 1px solid #eef2f7;
   padding-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-/* Form Labels */
+/* Wide cards */
+.card.wide {
+  grid-column: span 2;
+}
+
+/* ========================= */
+/* Inputs & Buttons */
+/* ========================= */
+
 label {
-  display: block;
-  margin-top: 14px;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #556987;
-  font-weight: 500;
+  margin-top: 10px;
+  display: block;
 }
 
-/* Inputs */
 select,
-input[type="number"],
-input[type="text"],
+input,
 textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 9px 10px;
   border-radius: 8px;
   border: 1px solid #dce4f2;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 5px;
   background: #fbfdff;
 }
 
-select:focus,
-input:focus,
-textarea:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
-}
-
-/* Textarea */
-textarea {
-  min-height: 80px;
-  resize: vertical;
-}
-
-/* Button */
 button {
   width: 100%;
-  margin-top: 18px;
-  padding: 12px;
+  margin-top: 15px;
+  padding: 10px;
   border-radius: 10px;
   border: none;
   background: linear-gradient(135deg, #4a90e2, #2d5be3);
   color: white;
-  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  letter-spacing: 0.3px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(45, 91, 227, 0.35);
-  opacity: 0.95;
-}
+/* ========================= */
+/* Breathing */
+/* ========================= */
 
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(45, 91, 227, 0.25);
-}
-
-/* Suggestions */
-#suggestions {
-  margin-top: 10px;
-}
-
-/* Individual Suggestion Card */
-.suggestion {
-  background: #f6f9ff;
-  border-left: 5px solid #4a90e2;
-  padding: 14px 16px;
-  border-radius: 10px;
-  margin-bottom: 14px;
-  animation: fadeIn 0.3s ease;
-}
-
-.suggestion p {
-  margin: 0 0 8px 0;
-  font-size: 0.95rem;
-  color: #2c3e50;
-}
-
-.suggestion ul {
-  margin: 0;
-  padding-left: 18px;
-}
-
-.suggestion li {
-  font-size: 0.9rem;
-  color: #4b5d7a;
-  margin-bottom: 4px;
-}
-
-/* Empty / Info Messages */
-#suggestions p {
-  color: #6c7c99;
-  font-style: italic;
-}
-
-/* Subtle Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile Friendly */
-@media (max-width: 600px) {
-  .mood-box,
-  .suggestions-box {
-    margin: 10px;
-    padding: 20px;
-  }
-
-  body > h1 {
-    font-size: 1.6rem;
-  }
-}
-/* Breathing Exercise */
 .breathing-box {
-  background: #ffffff;
-  max-width: 520px;
-  margin: 0 auto 25px auto;
-  padding: 25px;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
 
 .breathing-circle {
-  width: 140px;
-  height: 140px;
-  margin: 20px auto;
+  width: 120px;
+  height: 120px;
+  margin: 15px auto;
   border-radius: 50%;
   background: radial-gradient(circle, #4a90e2, #2d5be3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 2rem;
+  color: #fff;
+  font-size: 1.8rem;
   font-weight: bold;
   transition: transform 4s ease-in-out;
 }
@@ -217,8 +163,43 @@ button:active {
   transform: scale(0.85);
 }
 
-#breathingPhase {
-  font-size: 1rem;
-  color: #5f6f8a;
-  margin-top: 5px;
+/* ========================= */
+/* Charts */
+/* ========================= */
+
+.dashboard-box canvas {
+  width: 100% !important;
+  max-height: 260px;
+  margin-top: 10px;
+}
+
+/* ========================= */
+/* Mobile */
+/* ========================= */
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .sidebar nav {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card.wide {
+    grid-column: span 1;
+  }
 }

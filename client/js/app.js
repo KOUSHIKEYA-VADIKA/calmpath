@@ -7,34 +7,63 @@ submitBtn.addEventListener('click', async () => {
   const triggersInput = document.getElementById('triggers').value;
   const note = document.getElementById('note').value;
 
+  // Routine inputs (NEW)
+  const sleepHours = Number(document.getElementById('sleepHours').value) || null;
+  const sleepQuality = Number(document.getElementById('sleepQuality').value) || null;
+  const screenTime = Number(document.getElementById('screenTime').value) || null;
+  const energyLevel = Number(document.getElementById('energyLevel').value) || null;
+  const focusLevel = Number(document.getElementById('focusLevel').value) || null;
+  const activityMinutes = Number(document.getElementById('activityMinutes').value) || null;
+  const stressLevel = Number(document.getElementById('stressLevel').value) || null;
+
   const triggers = triggersInput
     .split(',')
     .map(t => t.trim())
     .filter(t => t);
 
-  const moodData = { mood, intensity, triggers, note };
+  const moodData = {
+    mood,
+    intensity,
+    triggers,
+    note,
+
+    // Routine fields
+    sleepHours,
+    sleepQuality,
+    screenTime,
+    energyLevel,
+    focusLevel,
+    activityMinutes,
+    stressLevel
+  };
 
   try {
-    // 1. Save mood
+    // 1. Save mood + routine
     await fetch('http://localhost:5000/api/moods', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(moodData)
     });
 
-    // 2. Get suggestions
+    // 2. Get suggestions (still based on mood/intensity)
     const res = await fetch('http://localhost:5000/api/suggestions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(moodData)
+      body: JSON.stringify({ mood, intensity, triggers, note })
     });
 
     const data = await res.json();
     showSuggestions(data.suggestions);
 
+    // Optional UX: Clear some fields
+    document.getElementById('note').value = '';
+    document.getElementById('triggers').value = '';
+
+    alert('Daily check-in saved successfully!');
+
   } catch (error) {
     console.error('Error:', error);
-    suggestionsDiv.innerHTML = '<p>Error getting suggestions.</p>';
+    suggestionsDiv.innerHTML = '<p>Error saving check-in or getting suggestions.</p>';
   }
 });
 
@@ -57,7 +86,10 @@ function showSuggestions(suggestions) {
   });
 
   suggestionsDiv.innerHTML = html;
-}// ======================
+}
+
+
+// ======================
 // Breathing Timer Logic (Start / Stop)
 // ======================
 
@@ -124,4 +156,3 @@ function stopBreathingExercise() {
   breathingCircle.classList.remove('inhale', 'exhale');
   startBreathingBtn.textContent = 'Start Breathing';
 }
-
