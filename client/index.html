@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CalmPath</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>CalmPath</h1>
+  <p>Emotional awareness & self-regulation tool</p>
+
+  <section class="mood-box">
+    <h2>Log How You Feel</h2>
+
+    <label>Mood</label>
+    <select id="mood">
+      <option value="anxious">Anxious</option>
+      <option value="low">Low</option>
+      <option value="stressed">Stressed</option>
+      <option value="angry">Angry</option>
+      <option value="neutral">Neutral</option>
+    </select>
+
+    <label>Intensity (1-10)</label>
+    <input type="number" id="intensity" min="1" max="10" value="5">
+
+    <label>Triggers (comma separated)</label>
+    <input type="text" id="triggers" placeholder="exams, sleep, work">
+
+    <label>Note (optional)</label>
+    <textarea id="note"></textarea>
+
+    <button id="submitMood">Log Mood</button>
+  </section>
+
+  <section class="suggestions-box">
+    <h2>Suggested Self-Regulation</h2>
+    <div id="suggestions"></div>
+  </section>
+  <section class="breathing-box">
+  <h2>Breathing Exercise</h2>
+  <p id="breathingPhase">Ready to begin</p>
+
+  <div class="breathing-circle" id="breathingCircle">
+    <span id="breathingCount">0</span>
+  </div>
+
+  <button id="startBreathing">Start Breathing</button>
+</section>
+
+
+  <script src="js/app.js"></script>
+</body>
+</html>

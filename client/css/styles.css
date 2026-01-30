@@ -1,0 +1,224 @@
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #eaf3ff, #f6fbff);
+  color: #2c3e50;
+  min-height: 100vh;
+}
+
+/* App Container */
+body > h1 {
+  text-align: center;
+  margin-top: 20px;
+  color: #2d5be3;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+body > p {
+  text-align: center;
+  color: #5f6f8a;
+  margin-bottom: 30px;
+}
+
+/* Main Sections */
+.mood-box,
+.suggestions-box {
+  background: #ffffff;
+  max-width: 520px;
+  margin: 0 auto 25px auto;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mood-box:hover,
+.suggestions-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Section Titles */
+.mood-box h2,
+.suggestions-box h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #34495e;
+  font-size: 1.3rem;
+  border-bottom: 1px solid #eef2f7;
+  padding-bottom: 8px;
+}
+
+/* Form Labels */
+label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #556987;
+  font-weight: 500;
+}
+
+/* Inputs */
+select,
+input[type="number"],
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #dce4f2;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  background: #fbfdff;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+/* Textarea */
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Button */
+button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #4a90e2, #2d5be3);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(45, 91, 227, 0.35);
+  opacity: 0.95;
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(45, 91, 227, 0.25);
+}
+
+/* Suggestions */
+#suggestions {
+  margin-top: 10px;
+}
+
+/* Individual Suggestion Card */
+.suggestion {
+  background: #f6f9ff;
+  border-left: 5px solid #4a90e2;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  animation: fadeIn 0.3s ease;
+}
+
+.suggestion p {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.suggestion ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.suggestion li {
+  font-size: 0.9rem;
+  color: #4b5d7a;
+  margin-bottom: 4px;
+}
+
+/* Empty / Info Messages */
+#suggestions p {
+  color: #6c7c99;
+  font-style: italic;
+}
+
+/* Subtle Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Friendly */
+@media (max-width: 600px) {
+  .mood-box,
+  .suggestions-box {
+    margin: 10px;
+    padding: 20px;
+  }
+
+  body > h1 {
+    font-size: 1.6rem;
+  }
+}
+/* Breathing Exercise */
+.breathing-box {
+  background: #ffffff;
+  max-width: 520px;
+  margin: 0 auto 25px auto;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.breathing-circle {
+  width: 140px;
+  height: 140px;
+  margin: 20px auto;
+  border-radius: 50%;
+  background: radial-gradient(circle, #4a90e2, #2d5be3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  transition: transform 4s ease-in-out;
+}
+
+.breathing-circle.inhale {
+  transform: scale(1.2);
+}
+
+.breathing-circle.exhale {
+  transform: scale(0.85);
+}
+
+#breathingPhase {
+  font-size: 1rem;
+  color: #5f6f8a;
+  margin-top: 5px;
+}
