@@ -12,6 +12,11 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <script>
+  if (!localStorage.getItem('calmpathUser')) {
+    window.location.href = 'login.html';
+  }
+</script>
   <header class="site-header">
     <div class="site-header-inner">
       <div class="brand">

@@ -498,3 +498,23 @@ textarea:disabled {
   opacity: 0.6;
   background: #f1f3fa;
 }
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eaf3ff, #f6fbff);
+}
+
+.auth-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 320px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.auth-card h1 {
+  margin-bottom: 10px;
+}
