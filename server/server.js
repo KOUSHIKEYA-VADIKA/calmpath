@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const exportRoutes = require('./routes/exportRoutes');
 const pathwayRoutes = require('./routes/pathwayRoutes');
 const resourceRoutes = require('./routes/resourceRoutes');
 const moodRoutes = require('./routes/moodRoutes');
 const ruleRoutes = require('./routes/ruleRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 
 // Connect to MongoDB
@@ -17,7 +19,11 @@ app.use(express.json());
 app.use('/api/resources', resourceRoutes);
 app.use('/api/moods', moodRoutes);
 app.use('/api/suggestions', ruleRoutes);
+app.use('/api/tasks', taskRoutes);
 app.use('/api/pathways', pathwayRoutes);
+app.use('/api/export', exportRoutes);
+
+
 
 
 

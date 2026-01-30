@@ -1,161 +1,250 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>CalmPath</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CalmPath — Gentle emotional check-ins</title>
+
+  <!-- Calm typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h1>CalmPath</h1>
-  <p>Emotional awareness & self-regulation tool</p>
-  <!-- ========================= -->
-<!-- Daily Context Check-In -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <div class="brand">
+        <div class="logo">🌿</div>
+        <div>
+          <h1 class="title">CalmPath</h1>
+          <p class="tagline">A gentle place to notice, reflect, and restore</p>
+        </div>
+      </div>
+      <div class="meta">
+        <small class="meta-note">Private • No diagnosis • For self-regulation</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Day snapshot -->
+    <section class="panel panel-light" aria-labelledby="day-heading">
+      <div class="panel-inner">
+        <h2 id="day-heading" class="panel-title">How was your day?</h2>
+
+        <div class="flow">
+          <select id="dayTypeSelect" class="input select">
+            <option value="">Select your day type</option>
+            <option value="low-energy">Low-energy day</option>
+            <option value="recovery">Recovery day</option>
+            <option value="high-focus">High-focus day</option>
+          </select>
+
+          <div id="dayContextFollowup" class="flow-child"></div>
+          <div id="dayContextResult" class="muted small-italic"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid layout -->
+    <section class="grid">
+
+      <!-- Left column -->
+      <div class="col">
+
+        <!-- Daily Check-in -->
+        <section class="panel" aria-labelledby="checkin-heading">
+          <div class="panel-inner">
+            <h2 id="checkin-heading" class="panel-title">Daily Check-In</h2>
+
+            <div class="form-grid">
+              <div class="col-form">
+                <label for="mood">Mood</label>
+                <select id="mood" class="input select">
+                  <option value="anxious">Anxious</option>
+                  <option value="low">Low</option>
+                  <option value="stressed">Stressed</option>
+                  <option value="angry">Angry</option>
+                  <option value="neutral">Neutral</option>
+                </select>
+
+                <label for="intensity">Intensity (1-10)</label>
+                <input id="intensity" type="number" min="1" max="10" value="5" class="input">
+
+                <label for="triggers">Triggers (comma separated)</label>
+                <input id="triggers" type="text" placeholder="exams, sleep, work" class="input">
+
+                <label for="note">Note (optional)</label>
+                <textarea id="note" rows="4" class="input textarea"></textarea>
+              </div>
+
+              <div class="col-form">
+                <h3 class="small-title">Daily routine</h3>
+
+                <label for="sleepHours">Sleep hours</label>
+                <input id="sleepHours" type="number" step="0.5" class="input" placeholder="e.g. 7.5">
+
+                <label for="sleepQuality">Sleep quality (1-5)</label>
+                <input id="sleepQuality" type="number" min="1" max="5" class="input" placeholder="1 = poor · 5 = excellent">
+
+                <label for="screenTime">Screen time (hours)</label>
+                <input id="screenTime" type="number" step="0.5" class="input">
+
+                <label for="energyLevel">Energy level (1-5)</label>
+                <input id="energyLevel" type="number" min="1" max="5" class="input">
+
+                <label for="focusLevel">Focus level (1-5)</label>
+                <input id="focusLevel" type="number" min="1" max="5" class="input">
+
+                <label for="activityMinutes">Activity (minutes)</label>
+                <input id="activityMinutes" type="number" class="input">
+
+                <label for="stressLevel">Perceived stress (1-5)</label>
+                <input id="stressLevel" type="number" min="1" max="5" class="input">
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="submitMood" class="btn-primary">Save check-in</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Suggestions -->
+        <section class="panel panel-soft" aria-labelledby="suggestions-heading">
+          <div class="panel-inner">
+            <h2 id="suggestions-heading" class="panel-title">Suggested self-regulation</h2>
+            <div id="suggestions" class="suggestions-list"></div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right column -->
+      <aside class="col col-right">
+
+        <!-- ========================= -->
+        <!-- TASK SCHEDULER (NEW) -->
+        <!-- ========================= -->
+        <section class="panel panel-soft" aria-labelledby="tasks-heading">
+          <div class="panel-inner">
+            <h2 id="tasks-heading" class="panel-title">My Gentle Tasks</h2>
+
+            <input id="taskTitle" class="input" placeholder="Task (e.g., 10 min walk)">
+            <input id="taskDate" type="date" class="input">
+            <input id="taskTime" type="time" class="input">
+
+            <div class="actions">
+              <button id="addTaskBtn" class="btn-primary">Add Task</button>
+            </div>
+
+            <div id="taskList" style="margin-top:12px"></div>
+
+            <div id="streakBox" class="small-italic" style="margin-top:10px"></div>
+            <div id="badgeBox" class="small-muted" style="margin-top:6px"></div>
+          </div>
+        </section>
+        <!-- ========================= -->
+<!-- DATA & PRIVACY (EXPORT) -->
 <!-- ========================= -->
-<section class="day-context-box">
-  <h2>How was your day?</h2>
+<section class="panel panel-soft" aria-labelledby="privacy-heading">
+  <div class="panel-inner">
+    <h2 id="privacy-heading" class="panel-title">Data & Privacy</h2>
 
-  <select id="dayTypeSelect">
-    <option value="">-- Select your day type --</option>
-    <option value="low-energy">Low-energy day</option>
-    <option value="recovery">Recovery day</option>
-    <option value="high-focus">High-focus day</option>
-  </select>
+    <p class="small-muted">
+      Your data belongs to you. You can export your logs and tasks anytime.
+    </p>
 
-  <div id="dayContextFollowup"></div>
-  <div id="dayContextResult"></div>
+    <div class="actions">
+      <button id="exportDataBtn" class="btn-primary">
+        Export My Data
+      </button>
+    </div>
+
+    <div id="exportStatus" class="small-italic" style="margin-top:8px"></div>
+  </div>
 </section>
 
 
-  <!-- ========================= -->
-  <!-- Daily Check-In -->
-  <!-- ========================= -->
-  <section class="mood-box">
-    <h2>Daily Check-In</h2>
+        <!-- Trends -->
+        <section class="panel" aria-labelledby="trends-heading">
+          <div class="panel-inner">
+            <h2 id="trends-heading" class="panel-title">Your trends</h2>
 
-    <label>Mood</label>
-    <select id="mood">
-      <option value="anxious">Anxious</option>
-      <option value="low">Low</option>
-      <option value="stressed">Stressed</option>
-      <option value="angry">Angry</option>
-      <option value="neutral">Neutral</option>
-    </select>
+            <div class="row" style="gap:12px; align-items:center;">
+              <label for="dashboardRange" class="small-muted">View range</label>
+              <select id="dashboardRange" class="input select small">
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+              </select>
+            </div>
 
-    <label>Intensity (1-10)</label>
-    <input type="number" id="intensity" min="1" max="10" value="5">
+            <div class="charts">
+              <canvas id="intensityLineChart"></canvas>
+              <canvas id="routineBarChart"></canvas>
+            </div>
+          </div>
+        </section>
 
-    <label>Triggers (comma separated)</label>
-    <input type="text" id="triggers" placeholder="exams, sleep, work">
+        <!-- Breathing -->
+        <section class="panel panel-soft" aria-labelledby="breathing-heading">
+          <div class="panel-inner center">
+            <h2 id="breathing-heading" class="panel-title">Breathing</h2>
+            <p id="breathingPhase" class="small-muted">Ready to begin</p>
 
-    <label>Note (optional)</label>
-    <textarea id="note"></textarea>
+            <div class="breathing-circle" id="breathingCircle">
+              <span id="breathingCount">0</span>
+            </div>
 
-    <!-- Routine Inputs (NEW) -->
-    <h3>Daily Routine</h3>
+            <div class="actions">
+              <button id="startBreathing" class="btn-ghost">Start breathing</button>
+            </div>
+          </div>
+        </section>
 
-    <label>Sleep Hours</label>
-    <input type="number" id="sleepHours" step="0.5" placeholder="e.g. 7.5">
+        <!-- Pathways -->
+        <section class="panel panel-soft" aria-labelledby="pathways-heading">
+          <div class="panel-inner">
+            <h2 id="pathways-heading" class="panel-title">Guided pathways</h2>
 
-    <label>Sleep Quality (1-5)</label>
-    <input type="number" id="sleepQuality" min="1" max="5" placeholder="1 = Poor, 5 = Excellent">
+            <select id="pathwaySelect" class="input select">
+              <option value="">Select a pathway</option>
+            </select>
 
-    <label>Screen Time (hours)</label>
-    <input type="number" id="screenTime" step="0.5" placeholder="e.g. 5">
+            <div class="actions">
+              <button id="startPathwayBtn" class="btn-ghost">Start pathway</button>
+            </div>
 
-    <label>Energy Level (1-5)</label>
-    <input type="number" id="energyLevel" min="1" max="5">
+            <div id="pathwayPlayer" class="muted small-italic" style="margin-top:12px"></div>
+          </div>
+        </section>
 
-    <label>Focus Level (1-5)</label>
-    <input type="number" id="focusLevel" min="1" max="5">
+        <!-- Resources -->
+        <section class="panel panel-soft" aria-labelledby="resources-heading">
+          <div class="panel-inner">
+            <h2 id="resources-heading" class="panel-title">Resource library</h2>
 
-    <label>Physical Activity (minutes)</label>
-    <input type="number" id="activityMinutes" placeholder="e.g. 30">
+            <input id="resourceSearch" type="text" class="input" placeholder="Search stress, sleep, anxiety..." oninput="searchResourcesUI()">
+            <div id="resourceResults" style="margin-top:12px"></div>
+          </div>
+        </section>
 
-    <label>Perceived Stress (1-5)</label>
-    <input type="number" id="stressLevel" min="1" max="5">
+      </aside>
+    </section>
 
-    <button id="submitMood">Log Daily Check-In</button>
-  </section>
+  </main>
 
-  <!-- ========================= -->
-  <!-- Suggested Self-Regulation -->
-  <!-- ========================= -->
-  <section class="suggestions-box">
-    <h2>Suggested Self-Regulation</h2>
-    <div id="suggestions"></div>
-  </section>
-
-  <!-- ========================= -->
-  <!-- Resource Library -->
-  <!-- ========================= -->
-  <section class="resource-box">
-    <h2>Resource Library</h2>
-    <p>Browse trusted self-regulation resources.</p>
-
-    <input
-      type="text"
-      id="resourceSearch"
-      placeholder="Search stress, sleep, anxiety..."
-      oninput="searchResourcesUI()"
-    />
-
-    <div id="resourceResults"></div>
-  </section>
-
-  <!-- ========================= -->
-  <!-- Guided Pathways -->
-  <!-- ========================= -->
-  <section class="pathway-box">
-    <h2>Guided Pathways</h2>
-    <p>Select a structured self-regulation routine.</p>
-
-    <select id="pathwaySelect">
-      <option value="">-- Select a pathway --</option>
-    </select>
-
-    <button id="startPathwayBtn">Start Pathway</button>
-
-    <div id="pathwayPlayer"></div>
-  </section>
-
-  <!-- ========================= -->
-  <!-- Dashboard -->
-  <!-- ========================= -->
-  <section class="dashboard-box">
-    <h2>Emotional & Routine Dashboard</h2>
-    <p>Based on your daily check-ins.</p>
-
-    <label for="dashboardRange">View Range:</label>
-    <select id="dashboardRange">
-      <option value="7">Last 7 Days</option>
-      <option value="30">Last 30 Days</option>
-    </select>
-
-    <canvas id="intensityLineChart"></canvas>
-    <canvas id="routineBarChart"></canvas>
-  </section>
-
-  <!-- ========================= -->
-  <!-- Breathing Tool -->
-  <!-- ========================= -->
-  <section class="breathing-box">
-    <h2>Breathing Exercise</h2>
-    <p id="breathingPhase">Ready to begin</p>
-
-    <div class="breathing-circle" id="breathingCircle">
-      <span id="breathingCount">0</span>
-    </div>
-
-    <button id="startBreathing">Start Breathing</button>
-  </section>
-
-  <!-- ========================= -->
-  <!-- Scripts (SAFE ORDER) -->
-  <!-- ========================= -->
+  <!-- Scripts (preserve order and logic) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/search.js"></script>
   <script src="js/interventions.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/dayContext.js"></script>
+  <script src="js/tasks.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/export.js"></script>
+
 </body>
 </html>

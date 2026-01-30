@@ -1,30 +1,19 @@
 const mongoose = require('mongoose');
 
 const MoodLogSchema = new mongoose.Schema({
-  mood: {
-    type: String,
-    required: true
-  },
-  intensity: {
-    type: Number,
-    required: true
-  },
+  mood: { type: String, required: true },
+  intensity: { type: Number, required: true },
   triggers: [String],
   note: String,
 
-  // Routine & lifestyle fields (NEW)
   sleepHours: Number,
-  sleepQuality: Number,   // 1–5
-  screenTime: Number,     // hours
-  energyLevel: Number,    // 1–5
-  focusLevel: Number,     // 1–5
+  sleepQuality: Number,
+  screenTime: Number,
+  energyLevel: Number,
+  focusLevel: Number,
   activityMinutes: Number,
-  stressLevel: Number,    // 1–5
+  stressLevel: Number
+}, { timestamps: true });
 
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = mongoose.model('MoodLog', MoodLogSchema);
+module.exports = mongoose.models.MoodLog 
+  || mongoose.model('MoodLog', MoodLogSchema);
