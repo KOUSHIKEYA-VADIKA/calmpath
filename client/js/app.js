@@ -93,6 +93,10 @@ function showSuggestions(suggestions) {
 // Breathing Timer Logic (Start / Stop)
 // ======================
 
+// ======================
+// Improved Breathing Timer Logic
+// ======================
+
 const startBreathingBtn = document.getElementById('startBreathing');
 const breathingCircle = document.getElementById('breathingCircle');
 const breathingPhase = document.getElementById('breathingPhase');
@@ -113,37 +117,51 @@ function toggleBreathingExercise() {
 
 function startBreathingExercise() {
   isBreathingActive = true;
-  startBreathingBtn.textContent = 'Stop Breathing';
+  startBreathingBtn.textContent = 'Stop breathing';
 
   let phase = 'inhale';
   let count = 4;
 
-  breathingPhase.textContent = 'Inhale';
-  breathingCircle.classList.add('inhale');
-  breathingCircle.classList.remove('exhale');
-  breathingCount.textContent = count;
+  setPhase(phase, count);
 
   breathingInterval = setInterval(() => {
     count--;
 
     if (count <= 0) {
       if (phase === 'inhale') {
+        phase = 'hold';
+        count = 4;
+      } else if (phase === 'hold') {
         phase = 'exhale';
         count = 6;
-        breathingPhase.textContent = 'Exhale';
-        breathingCircle.classList.remove('inhale');
-        breathingCircle.classList.add('exhale');
       } else {
         phase = 'inhale';
         count = 4;
-        breathingPhase.textContent = 'Inhale';
-        breathingCircle.classList.remove('exhale');
-        breathingCircle.classList.add('inhale');
       }
+      setPhase(phase, count);
     }
 
     breathingCount.textContent = count;
   }, 1000);
+}
+
+function setPhase(phase, count) {
+  breathingPhase.textContent =
+    phase === 'inhale' ? 'Inhale slowly' :
+    phase === 'hold' ? 'Hold' :
+    'Exhale slowly';
+
+  breathingCircle.classList.remove('inhale', 'exhale');
+
+  if (phase === 'inhale') {
+    breathingCircle.classList.add('inhale');
+  }
+
+  if (phase === 'exhale') {
+    breathingCircle.classList.add('exhale');
+  }
+
+  breathingCount.textContent = count;
 }
 
 function stopBreathingExercise() {
@@ -154,8 +172,9 @@ function stopBreathingExercise() {
   breathingPhase.textContent = 'Stopped';
   breathingCount.textContent = '0';
   breathingCircle.classList.remove('inhale', 'exhale');
-  startBreathingBtn.textContent = 'Start Breathing';
+  startBreathingBtn.textContent = 'Start breathing';
 }
+
 /* ========================= */
 /* Logout */
 /* ========================= */
@@ -198,4 +217,63 @@ if (deleteAllBtn) {
       deleteStatus.textContent = 'Failed to delete data.';
     }
   });
+}
+// ======================
+// Grounding Technique (5-4-3-2-1)
+// ======================
+
+// ======================
+// Interactive Grounding (5-4-3-2-1 with input)
+// ======================
+
+const groundingBox = document.getElementById('groundingBox');
+
+const interactiveGroundingSteps = [
+  { label: "👀 Name 5 things you can see", count: 5 },
+  { label: "✋ Name 4 things you can feel", count: 4 },
+  { label: "👂 Name 3 things you can hear", count: 3 },
+  { label: "👃 Name 2 things you can smell", count: 2 },
+  { label: "👅 Name 1 thing you can taste or a positive thought", count: 1 }
+];
+
+let interactiveIndex = 0;
+
+function renderGroundingStep() {
+  const step = interactiveGroundingSteps[interactiveIndex];
+
+  let inputs = '';
+  for (let i = 0; i < step.count; i++) {
+    inputs += `<input class="input" placeholder="Type here..." style="margin-top:6px">`;
+  }
+
+  return `
+    <div>
+      <strong>${step.label}</strong>
+      <div style="margin-top:6px">${inputs}</div>
+      <button class="btn-ghost" style="margin-top:10px" onclick="nextInteractiveGrounding()">
+        Next
+      </button>
+    </div>
+  `;
+}
+
+function startInteractiveGrounding() {
+  if (!groundingBox) return;
+  interactiveIndex = 0;
+  groundingBox.innerHTML = renderGroundingStep();
+}
+
+function nextInteractiveGrounding() {
+  interactiveIndex++;
+
+  if (interactiveIndex < interactiveGroundingSteps.length) {
+    groundingBox.innerHTML = renderGroundingStep();
+  } else {
+    groundingBox.innerHTML = `
+      <div>
+        🌿 Grounding complete.<br>
+        Take a slow breath and notice how you feel now.
+      </div>
+    `;
+  }
 }

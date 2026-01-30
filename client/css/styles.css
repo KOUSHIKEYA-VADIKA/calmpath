@@ -536,3 +536,10 @@ textarea:disabled {
   padding: 6px 10px;
   font-size: 0.85rem;
 }
+/* #groundingBox {
+  background: #f3f7ff;
+  border-left: 4px solid #8bb3ff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+} */

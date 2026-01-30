@@ -117,6 +117,4 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch mood logs' });
   }
 });
-
-
 module.exports = router;

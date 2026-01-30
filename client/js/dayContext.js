@@ -1,138 +1,123 @@
+// ======================
+// Day Context Logic (ImproVED)
+// ======================
+
 const dayTypeSelect = document.getElementById('dayTypeSelect');
 const followupDiv = document.getElementById('dayContextFollowup');
 const resultDiv = document.getElementById('dayContextResult');
 
-/* ======================
-   Data (Quotes & Techniques)
-====================== */
+dayTypeSelect.addEventListener('change', handleDayType);
 
-const calmingTechniques = [
-  'Take 5 slow breaths, counting each exhale.',
-  'Place your feet on the ground and name 3 things you see.',
-  'Relax your shoulders and unclench your jaw.',
-  'Close your eyes for 30 seconds and scan your body for tension.',
-  'Drink a glass of water slowly and mindfully.'
-];
+function handleDayType() {
+  const value = dayTypeSelect.value;
 
-const motivationQuotes = [
-  'Progress, not perfection.',
-  'Even small steps count.',
-  'Your effort today still matters.',
-  'You don’t have to do everything at once.',
-  'Rest is part of progress.',
-  'Be gentle with yourself and keep going.',
-  'Doing something is better than nothing.',
-  'You’ve handled hard days before.',
-  'Today’s effort still counts.',
-  'Small wins still matter.'
-];
+  followupDiv.innerHTML = '';
+  resultDiv.textContent = '';
+
+  if (value === 'low-energy') {
+    showLowEnergyFlow();
+  }
+
+  if (value === 'recovery') {
+    showRecoveryQuote();
+  }
+
+  if (value === 'high-focus') {
+    showHighFocusQuote();
+  }
+}
+
+// ======================
+// LOW ENERGY FLOW
+// ======================
+
+function showLowEnergyFlow() {
+  followupDiv.innerHTML = `
+    <p class="small-muted">
+      Today is a low-energy day. Let’s slow things down and support your nervous system.
+    </p>
+
+    <div class="flow">
+      <p class="small-muted">
+        Start with breathing, then grounding if your mind feels busy.
+      </p>
+
+      <button class="btn-ghost" id="goToBreathingBtn">
+        🫁 Start gentle breathing
+      </button>
+
+      <button class="btn-ghost" id="goToGroundingBtn" style="margin-top:8px">
+        🧠 Start grounding exercise
+      </button>
+    </div>
+  `;
+
+  document
+    .getElementById('goToBreathingBtn')
+    .addEventListener('click', () => {
+      document.getElementById('startBreathing')?.click();
+      resultDiv.textContent = 'Breathing started. Follow the circle slowly.';
+    });
+
+  document
+    .getElementById('goToGroundingBtn')
+    .addEventListener('click', () => {
+      startInteractiveGrounding();
+      resultDiv.textContent = 'Grounding started. Take it one step at a time.';
+    });
+}
+
+// ======================
+// RECOVERY DAY
+// ======================
 
 const recoveryQuotes = [
-  'Healing is not linear — and that’s okay.',
-  'Today is for rest, not rushing.',
-  'Slow days are still valuable days.',
-  'You are allowed to pause.',
-  'Gentleness is productive too.',
-  'Your body and mind deserve care.',
-  'Resting today supports tomorrow.',
-  'Recovery is a form of strength.',
-  'Taking care of yourself is not selfish.',
-  'You are doing enough by resting.'
+  "You don’t need to be productive to be worthy of rest.",
+  "Healing is not linear. Be gentle with yourself today.",
+  "Rest is an active part of recovery.",
+  "It’s okay to move slowly today.",
+  "Your body and mind are doing their best."
 ];
+
+function showRecoveryQuote() {
+  const q = getDailyRotatingQuote(recoveryQuotes);
+  resultDiv.textContent = `🌱 ${q}`;
+}
+
+// ======================
+// HIGH FOCUS DAY
+// ======================
 
 const focusQuotes = [
-  'You are showing up — that matters.',
-  'Your focus today is a strength.',
-  'Keep going — you’re in a good rhythm.',
-  'You are building something meaningful.',
-  'Your effort today will pay off.',
-  'You are capable and consistent.',
-  'You’re making real progress.',
-  'Stay with this momentum.',
-  'Your discipline is paying off.',
-  'You are doing great work today.'
+  "You’re showing up — that matters.",
+  "Small focused steps lead to big outcomes.",
+  "You’re capable of more than you think.",
+  "Stay steady. You’re doing well.",
+  "Your effort today is building your future."
 ];
 
-/* ======================
-   Helpers for ONE per day
-====================== */
-
-function getToday() {
-  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+function showHighFocusQuote() {
+  const q = getDailyRotatingQuote(focusQuotes);
+  resultDiv.textContent = `🚀 ${q}`;
 }
 
-function getDailyItem(storageKey, list) {
-  const today = getToday();
-  const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+// ======================
+// Helper: Daily rotation (non-AI)
+// ======================
 
-  // If already saved for today, reuse it
-  if (saved && saved.date === today) {
-    return saved.value;
-  }
-
-  // Otherwise pick new and save for today
-  const newValue = list[Math.floor(Math.random() * list.length)];
-
-  localStorage.setItem(storageKey, JSON.stringify({
-    date: today,
-    value: newValue
-  }));
-
-  return newValue;
+function getDailyRotatingQuote(arr) {
+  const dayIndex = new Date().getDate() % arr.length;
+  return arr[dayIndex];
 }
 
-/* ======================
-   Main Logic
-====================== */
+// ======================
+// INTERACTIVE GROUNDING (LOW ENERGY)
+// ======================
 
-dayTypeSelect.addEventListener('change', () => {
-  followupDiv.innerHTML = '';
-  resultDiv.innerHTML = '';
+function startInteractiveGrounding() {
+  const groundingBox = document.getElementById('groundingBox');
+  if (!groundingBox) return;
 
-  const dayType = dayTypeSelect.value;
-
-  // LOW ENERGY
-  if (dayType === 'low-energy') {
-    followupDiv.innerHTML = `
-      <label>What do you need right now?</label>
-      <select id="lowEnergyNeed">
-        <option value="">-- Choose --</option>
-        <option value="calming">Calming technique</option>
-        <option value="motivation">Motivation</option>
-      </select>
-    `;
-
-    document
-      .getElementById('lowEnergyNeed')
-      .addEventListener('change', handleLowEnergy);
-  }
-
-  // RECOVERY DAY
-  else if (dayType === 'recovery') {
-    const quote = getDailyItem('dailyRecoveryQuote', recoveryQuotes);
-    resultDiv.innerHTML = `💬 "${quote}"`;
-  }
-
-  // HIGH FOCUS DAY
-  else if (dayType === 'high-focus') {
-    const quote = getDailyItem('dailyFocusQuote', focusQuotes);
-    resultDiv.innerHTML = `💬 "${quote}"`;
-  }
-});
-
-function handleLowEnergy() {
-  const need = document.getElementById('lowEnergyNeed').value;
-  resultDiv.innerHTML = '';
-
-  // CALMING
-  if (need === 'calming') {
-    const technique = getDailyItem('dailyCalmingTechnique', calmingTechniques);
-    resultDiv.innerHTML = `🫁 Calming for today: "${technique}"`;
-  }
-
-  // MOTIVATION
-  else if (need === 'motivation') {
-    const quote = getDailyItem('dailyMotivationQuote', motivationQuotes);
-    resultDiv.innerHTML = `💬 Motivation for today: "${quote}"`;
-  }
+  interactiveIndex = 0;
+  groundingBox.innerHTML = renderGroundingStep();
 }
