@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -29,8 +29,14 @@
         </div>
       </div>
       <div class="meta">
-        <small class="meta-note">Private & Secure</small>
-        <button id="logoutBtn" class="btn-ghost" style="padding:6px 12px; font-size:0.8rem;">
+        <small class="meta-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Private & Secure
+        </small>
+        <button id="logoutBtn" class="btn-ghost btn-small">
           Logout
         </button>
       </div>
@@ -39,171 +45,346 @@
 
   <main class="container">
 
-    <section class="panel" aria-labelledby="day-heading">
-      <h2 id="day-heading" class="panel-title">
-        How was your day?
-        <span id="dayContextResult" class="muted small-italic" style="font-weight:400; font-size:0.9rem;"></span>
-      </h2>
-      <div class="form-grid">
-        <div>
-          <select id="dayTypeSelect" class="input select">
-            <option value="">Select context...</option>
+    <!-- Day Context - Full Width Hero -->
+    <section class="panel panel-hero" aria-labelledby="day-heading">
+      <div class="hero-content">
+        <div class="hero-header">
+          <span class="hero-icon">☀️</span>
+          <div>
+            <h2 id="day-heading" class="hero-title">How was your day?</h2>
+            <p class="hero-subtitle">Share your daily context to get personalized support</p>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <select id="dayTypeSelect" class="input select select-large">
+            <option value="">Select your day context...</option>
             <option value="low-energy">Low-energy day</option>
             <option value="recovery">Recovery day</option>
             <option value="high-focus">High-focus day</option>
           </select>
+          <span id="dayContextResult" class="context-result"></span>
         </div>
-        <div id="dayContextFollowup"></div>
       </div>
+      <div id="dayContextFollowup" class="context-followup"></div>
     </section>
 
-    <div class="split-top">
+    <!-- Main Content: Check-in + Tasks Side by Side -->
+    <div class="split-layout">
       
-      <section class="panel" aria-labelledby="checkin-heading">
-        <h2 id="checkin-heading" class="panel-title">Daily Check-In</h2>
+      <!-- Daily Check-In Section -->
+      <section class="panel panel-primary" aria-labelledby="checkin-heading">
+        <div class="panel-icon-header">
+          <span class="panel-icon">📊</span>
+          <div>
+            <h2 id="checkin-heading" class="panel-title-large">Daily Check-In</h2>
+            <p class="panel-description">Track your mental and physical wellbeing</p>
+          </div>
+        </div>
         
-        <div class="form-grid">
-          <div class="col-form">
-            <h3 class="small-title">Mind</h3>
-            <label for="mood">Mood</label>
-            <select id="mood" class="input select">
-              <option value="anxious">Anxious</option>
-              <option value="low">Low</option>
-              <option value="stressed">Stressed</option>
-              <option value="angry">Angry</option>
-              <option value="neutral">Neutral</option>
-            </select>
+        <div class="checkin-sections">
+          <!-- Mind Section -->
+          <div class="checkin-section">
+            <div class="section-header">
+              <span class="section-icon">🧠</span>
+              <h3 class="section-title">Mind</h3>
+            </div>
+            
+            <div class="form-fields">
+              <div class="form-field">
+                <label for="mood">How are you feeling?</label>
+                <select id="mood" class="input select">
+                  <option value="anxious">Anxious</option>
+                  <option value="low">Low</option>
+                  <option value="stressed">Stressed</option>
+                  <option value="angry">Angry</option>
+                  <option value="neutral">Neutral</option>
+                </select>
+              </div>
 
-            <label for="intensity">Intensity (1-10)</label>
-            <input id="intensity" type="number" min="1" max="10" value="5" class="input">
+              <div class="form-field">
+                <label for="intensity">Intensity Level</label>
+                <div class="input-with-indicator">
+                  <input id="intensity" type="number" min="1" max="10" value="5" class="input">
+                  <span class="input-suffix">/ 10</span>
+                </div>
+              </div>
 
-            <label for="triggers">Triggers</label>
-            <input id="triggers" type="text" placeholder="exams, work..." class="input">
+              <div class="form-field">
+                <label for="triggers">What triggered these feelings?</label>
+                <input id="triggers" type="text" placeholder="e.g., exams, work deadlines..." class="input">
+              </div>
+            </div>
           </div>
 
-          <div class="col-form">
-            <h3 class="small-title">Body</h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-              <div>
-                <label for="sleepHours">Sleep (hrs)</label>
-                <input id="sleepHours" type="number" step="0.5" class="input">
+          <!-- Body Section -->
+          <div class="checkin-section">
+            <div class="section-header">
+              <span class="section-icon">💪</span>
+              <h3 class="section-title">Body</h3>
+            </div>
+            
+            <div class="form-fields">
+              <div class="form-row-split">
+                <div class="form-field">
+                  <label for="sleepHours">Sleep Duration</label>
+                  <div class="input-with-indicator">
+                    <input id="sleepHours" type="number" step="0.5" class="input" placeholder="7.5">
+                    <span class="input-suffix">hrs</span>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="sleepQuality">Sleep Quality</label>
+                  <div class="input-with-indicator">
+                    <input id="sleepQuality" type="number" min="1" max="5" class="input" placeholder="4">
+                    <span class="input-suffix">/ 5</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label for="sleepQuality">Quality</label>
-                <input id="sleepQuality" type="number" min="1" max="5" class="input">
+
+              <div class="form-field">
+                <label for="screenTime">Screen Time Today</label>
+                <div class="input-with-indicator">
+                  <input id="screenTime" type="number" step="0.5" class="input" placeholder="4.5">
+                  <span class="input-suffix">hrs</span>
+                </div>
+              </div>
+
+              <div class="metrics-row">
+                <div class="metric-item">
+                  <label>Energy</label>
+                  <input id="energyLevel" type="number" min="1" max="5" class="input input-compact" placeholder="3">
+                </div>
+                <div class="metric-item">
+                  <label>Focus</label>
+                  <input id="focusLevel" type="number" min="1" max="5" class="input input-compact" placeholder="4">
+                </div>
+                <div class="metric-item">
+                  <label>Stress</label>
+                  <input id="stressLevel" type="number" min="1" max="5" class="input input-compact" placeholder="3">
+                </div>
               </div>
             </div>
+          </div>
+          
+          <input id="activityMinutes" type="number" class="input" style="display:none">
+        </div>
 
-            <label for="screenTime">Screen Time</label>
-            <input id="screenTime" type="number" step="0.5" class="input">
-
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
-               <div><label>Energy</label><input id="energyLevel" type="number" min="1" max="5" class="input"></div>
-               <div><label>Focus</label><input id="focusLevel" type="number" min="1" max="5" class="input"></div>
-               <div><label>Stress</label><input id="stressLevel" type="number" min="1" max="5" class="input"></div>
-            </div>
-            <input id="activityMinutes" type="number" class="input" style="display:none">
+        <!-- Journal Section -->
+        <div class="journal-section">
+          <div class="section-header">
+            <span class="section-icon">📝</span>
+            <h3 class="section-title">Journal</h3>
+          </div>
+          <div class="form-field">
+            <label for="note">Share your thoughts</label>
+            <textarea id="note" rows="4" class="input textarea" placeholder="What's on your mind? Reflect on your day, feelings, or anything you'd like to remember..."></textarea>
           </div>
         </div>
 
-        <label for="note">Journal Note</label>
-        <textarea id="note" rows="3" class="input textarea" placeholder="Thoughts..."></textarea>
-
-        <div class="actions">
-          <button id="submitMood" class="btn-primary" style="width:100%">Save Check-In</button>
+        <div class="panel-footer">
+          <button id="submitMood" class="btn-primary btn-xl">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 8px;">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Save Check-In
+          </button>
         </div>
       </section>
 
-      <section class="panel" aria-labelledby="tasks-heading">
-        <h2 id="tasks-heading" class="panel-title">Gentle Tasks</h2>
-        
-        <label>Add New Task</label>
-        <input id="taskTitle" class="input" placeholder="e.g. 10 min walk">
-        
-        <div class="task-inputs-row">
-           <input id="taskDate" type="date" class="input" style="flex:1">
-           <input id="taskTime" type="time" class="input" style="flex:1">
+      <!-- Tasks Section -->
+      <section class="panel panel-secondary" aria-labelledby="tasks-heading">
+        <div class="panel-icon-header">
+          <span class="panel-icon">✓</span>
+          <div>
+            <h2 id="tasks-heading" class="panel-title-large">Gentle Tasks</h2>
+            <p class="panel-description">Small steps for self-care</p>
+          </div>
         </div>
         
-        <div class="actions">
-           <button id="addTaskBtn" class="btn-primary" style="width:100%">Add Task</button>
+        <div class="task-creator">
+          <div class="form-field">
+            <label>What would you like to accomplish?</label>
+            <input id="taskTitle" class="input" placeholder="e.g., 10 minute walk, drink water">
+          </div>
+          
+          <div class="task-datetime">
+            <div class="form-field">
+              <label>Date</label>
+              <input id="taskDate" type="date" class="input">
+            </div>
+            <div class="form-field">
+              <label>Time</label>
+              <input id="taskTime" type="time" class="input">
+            </div>
+          </div>
+          
+          <button id="addTaskBtn" class="btn-primary btn-block">
+            <span class="btn-icon">+</span>
+            Add Task
+          </button>
         </div>
 
-        <div id="taskList" style="margin-top:16px;"></div>
+        <div class="task-divider">
+          <span class="divider-text">Your Tasks</span>
+        </div>
+
+        <div id="taskList" class="task-list-container"></div>
         
-        <div style="margin-top:auto; padding-top:16px; border-top:1px solid #f1f5f9; display:flex; justify-content:space-between;">
-           <div id="streakBox" class="small-italic"></div>
-           <div id="badgeBox" class="small-italic"></div>
+        <div class="task-stats">
+          <div class="stat-card">
+            <span class="stat-icon">🔥</span>
+            <div id="streakBox" class="stat-content"></div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🏆</span>
+            <div id="badgeBox" class="stat-content"></div>
+          </div>
         </div>
       </section>
 
     </div>
 
-    <section class="panel" aria-labelledby="trends-heading">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 id="trends-heading" class="panel-title" style="border:none; margin:0;">Your Trends</h2>
-        <select id="dashboardRange" class="input select" style="width:auto; font-size:0.85rem; padding:6px 10px;">
+    <!-- Trends - Full Width -->
+    <section class="panel panel-chart" aria-labelledby="trends-heading">
+      <div class="chart-header">
+        <div class="panel-icon-header">
+          <span class="panel-icon">📈</span>
+          <div>
+            <h2 id="trends-heading" class="panel-title-large">Your Trends</h2>
+            <p class="panel-description">Visualize your progress over time</p>
+          </div>
+        </div>
+        <select id="dashboardRange" class="input select select-compact">
           <option value="7">Last 7 Days</option>
           <option value="30">Last 30 Days</option>
         </select>
       </div>
 
-      <div class="charts-wrapper">
-        <div class="chart-box">
-           <canvas id="intensityLineChart"></canvas>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4 class="chart-title">Mood Intensity</h4>
+          <div class="chart-box">
+            <canvas id="intensityLineChart"></canvas>
+          </div>
         </div>
-        <div class="chart-box">
-           <canvas id="routineBarChart"></canvas>
+        <div class="chart-card">
+          <h4 class="chart-title">Daily Routine</h4>
+          <div class="chart-box">
+            <canvas id="routineBarChart"></canvas>
+          </div>
         </div>
       </div>
     </section>
 
-    <div class="widgets-grid">
+    <!-- Widgets Grid -->
+    <div class="widgets-container">
       
-      <section class="panel panel-soft" aria-labelledby="suggestions-heading">
-        <h2 id="suggestions-heading" class="panel-title">Suggestions</h2>
-        <div id="suggestions" class="suggestions-list">
-          <p class="small-italic">Check in above to see suggestions.</p>
+      <!-- Suggestions Widget -->
+      <section class="panel panel-widget" aria-labelledby="suggestions-heading">
+        <div class="widget-header">
+          <span class="widget-icon">💡</span>
+          <h2 id="suggestions-heading" class="widget-title">Suggestions</h2>
         </div>
-      </section>
-
-      <section class="panel panel-soft" aria-labelledby="breathing-heading">
-        <h2 id="breathing-heading" class="panel-title">Breathing</h2>
-        <div class="breathing-container">
-          <p id="breathingPhase" class="small-italic" style="margin-bottom:12px;">Ready</p>
-          <div class="breathing-circle" id="breathingCircle">
-            <span id="breathingCount">Start</span>
+        <div id="suggestions" class="suggestions-container">
+          <div class="empty-message">
+            <span class="empty-icon">✨</span>
+            <p>Complete your check-in to receive personalized suggestions</p>
           </div>
-          <button id="startBreathing" class="btn-ghost">Start Animation</button>
-          <button id="startGrounding" class="btn-ghost" style="margin-top:8px">Grounding 5-4-3-2-1</button>
-          <div id="groundingBox" class="small-italic" style="margin-top:8px"></div>
         </div>
       </section>
 
-      <section class="panel panel-soft" aria-labelledby="pathways-heading">
-        <h2 id="pathways-heading" class="panel-title">Pathways</h2>
-        <select id="pathwaySelect" class="input select">
-          <option value="">Choose a guide...</option>
-        </select>
-        <button id="startPathwayBtn" class="btn-primary" style="margin-top:12px; width:100%;">Begin</button>
-        <div id="pathwayPlayer" class="muted small-italic" style="margin-top:12px; min-height:60px;"></div>
+      <!-- Breathing Widget -->
+      <section class="panel panel-widget panel-breathing" aria-labelledby="breathing-heading">
+        <div class="widget-header">
+          <span class="widget-icon">🫁</span>
+          <h2 id="breathing-heading" class="widget-title">Breathing</h2>
+        </div>
+        <div class="breathing-widget">
+          <p id="breathingPhase" class="breathing-status">Ready to begin</p>
+          <div class="breathing-visualizer">
+            <div class="breathing-circle" id="breathingCircle">
+              <span id="breathingCount">Start</span>
+            </div>
+          </div>
+          <div class="breathing-controls">
+            <button id="startBreathing" class="btn-secondary btn-block">
+              <span>▶</span> Start Animation
+            </button>
+            <button id="startGrounding" class="btn-secondary btn-block">
+              <span>🧘</span> Grounding 5-4-3-2-1
+            </button>
+          </div>
+          <div id="groundingBox" class="grounding-text"></div>
+        </div>
       </section>
 
-      <section class="panel panel-soft" aria-labelledby="resources-heading">
-        <h2 id="resources-heading" class="panel-title">Library</h2>
-        <input id="resourceSearch" type="text" class="input" placeholder="Search topics..." oninput="searchResourcesUI()">
-        <div id="resourceResults" style="margin-top:12px; max-height:200px; overflow-y:auto;"></div>
+      <!-- Pathways Widget -->
+      <section class="panel panel-widget" aria-labelledby="pathways-heading">
+        <div class="widget-header">
+          <span class="widget-icon">🧭</span>
+          <h2 id="pathways-heading" class="widget-title">Pathways</h2>
+        </div>
+        <div class="pathways-content">
+          <div class="form-field">
+            <label>Choose your guided journey</label>
+            <select id="pathwaySelect" class="input select">
+              <option value="">Select a pathway...</option>
+            </select>
+          </div>
+          <button id="startPathwayBtn" class="btn-primary btn-block">
+            <span>→</span> Begin Journey
+          </button>
+          <div id="pathwayPlayer" class="pathway-player"></div>
+        </div>
       </section>
 
-      <section class="panel" aria-labelledby="privacy-heading">
-        <h2 id="privacy-heading" class="panel-title">Privacy</h2>
-        <p class="small-italic">Manage your local data.</p>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <button id="exportDataBtn" class="btn-ghost" style="text-align:left;">Download Data (JSON)</button>
-          <div id="exportStatus" class="small-italic"></div>
+      <!-- Library Widget -->
+      <section class="panel panel-widget" aria-labelledby="resources-heading">
+        <div class="widget-header">
+          <span class="widget-icon">📚</span>
+          <h2 id="resources-heading" class="widget-title">Library</h2>
+        </div>
+        <div class="library-content">
+          <div class="form-field">
+            <input id="resourceSearch" type="text" class="input input-search" placeholder="Search topics, articles, resources..." oninput="searchResourcesUI()">
+          </div>
+          <div id="resourceResults" class="resource-list"></div>
+        </div>
+      </section>
+
+      <!-- Privacy Widget -->
+      <section class="panel panel-widget panel-privacy" aria-labelledby="privacy-heading">
+        <div class="widget-header">
+          <span class="widget-icon">🔒</span>
+          <h2 id="privacy-heading" class="widget-title">Privacy & Data</h2>
+        </div>
+        <div class="privacy-content">
+          <p class="privacy-intro">Your data stays on your device. Manage it anytime.</p>
           
-          <button id="deleteAllDataBtn" class="btn-danger" style="text-align:left;">Delete Everything</button>
-          <div id="deleteStatus" class="small-italic"></div>
+          <div class="privacy-option">
+            <button id="exportDataBtn" class="btn-outline btn-block">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download Data (JSON)</span>
+            </button>
+            <div id="exportStatus" class="option-status"></div>
+          </div>
+          
+          <div class="privacy-divider"></div>
+          
+          <div class="privacy-option">
+            <button id="deleteAllDataBtn" class="btn-danger-outline btn-block">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Delete All Data</span>
+            </button>
+            <div id="deleteStatus" class="option-status"></div>
+          </div>
         </div>
       </section>
 
